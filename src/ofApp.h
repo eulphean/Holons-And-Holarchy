@@ -5,7 +5,7 @@
 
 class Layer {
 	public:
-		Layer(int gSize) {
+		Layer(glm::vec2 gSize) {
 			layer.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 			gridSize = gSize;
 		}
@@ -14,9 +14,9 @@ class Layer {
 			if (holons.size() > 0) {
 				layer.begin();
 					// Draw the holon.
-					for (int row = 0; row < gridSize; row++) {
-						for (int col = 0; col < gridSize; col++) {
-							Holon h = holons[row][col];
+					for (int row = 0; row < gridSize.y; row++) {
+						for (int col = 0; col < gridSize.x; col++) {
+							Holon h = holons[col][row];
 							h.draw();
 						}
 					}
@@ -40,7 +40,7 @@ class Layer {
 	
 	private:
 		ofFbo layer;
-		int gridSize; // Rows and columns are same.
+		glm::vec2 gridSize; // Rows and columns are same.
 }; 
 
 class ofApp : public ofBaseApp{
@@ -51,7 +51,7 @@ class ofApp : public ofBaseApp{
 		void draw();
 		void initSystem(); 
 		void createLayers();
-		void combineHolons();
+		void combineHolons(bool acrossWidth);
 		Holon getRandomHolon();
 		Holon crossover(Holon a, Holon b, glm::vec2 position, glm::vec2 size);
 		void mutate(Holon &a); 
@@ -59,7 +59,7 @@ class ofApp : public ofBaseApp{
 		void keyPressed(int key);
 	
 	private:
-		float gridSize;
+		glm::vec2 gridSize; // Rows and Columns. 
 		std::vector<vector<Holon>> holons;
 		std::vector<Layer> layers;
 		int layerIdx = 0;
