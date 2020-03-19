@@ -2,9 +2,11 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	// A4 resolution. 
+	layerResolution = glm::vec2(3508, 2480);
 	// 2^n, where n = {1 ... n }
 	// Total Layers created will n + 1;
-	numGenerations = 3;
+	numGenerations = 12;
 	// Assign rows and columns.
 	gridSize = glm::vec2(std::pow(2, numGenerations), std::pow(2, numGenerations));
 	
@@ -58,7 +60,7 @@ void ofApp::initSystem() {
 	//	layers.push_back(darkLayer);
 	
 	// Size for the first holon layer.
-	glm::vec2 size = glm::vec2(ofGetWidth()/gridSize.x, ofGetHeight()/gridSize.y);
+	glm::vec2 size = glm::vec2(layerResolution.x/gridSize.x, layerResolution.y/gridSize.y);
 	// Create the set of holons.
 	for (int row = 0; row < gridSize.y; row++) {
 		std::vector<Holon> cols;
@@ -71,9 +73,10 @@ void ofApp::initSystem() {
 	}
 	
 	// Create the first layer.
-	Layer layer(gridSize);
+	Layer layer(layerResolution, gridSize);
 	layer.create(holons);
 	layers.push_back(layer);
+	layer.saveToImage(layers.size());
 }
 
 void ofApp::createLayers() {
@@ -87,17 +90,19 @@ void ofApp::createLayers() {
 	
 	cout << "Combining... Grid across Width  " << gridSize.x << endl;
 	gridSize.x = gridSize.x/2; // Layers get reduced to half.
-	Layer layerWidth(gridSize);
+	Layer layerWidth(layerResolution, gridSize);
 	layerWidth.create(holons);
 	layers.push_back(layerWidth);
+	layerWidth.saveToImage(layers.size());
 	
 	combineHolons(false);
 	
 	cout << "Combining... Grid across Height  " << gridSize.y << endl;
 	gridSize.y = gridSize.y/2; // Layers get reduced to half.
-	Layer layerHeight(gridSize);
+	Layer layerHeight(layerResolution, gridSize);
 	layerHeight.create(holons);
 	layers.push_back(layerHeight);
+	layerHeight.saveToImage(layers.size());
 	
 	createLayers();
 }
@@ -118,10 +123,11 @@ void ofApp::combineHolons(bool acrossWidth) {
 		std::vector<Holon> newRow;
 		for (int col = 0; col < gridSize.x; col=col+offsetW) {
 			// We need to use sourceHolon's position and size to calculate (position, size) for our next Holon.
-			auto sourceHolon = holons[col][row];
+			auto sourceHolon = holons[row][col];
 			auto oldSize = sourceHolon.getSize(); auto oldPos = sourceHolon.getPosition();
 			
 			glm::vec2 newSize;
+			
 			// New Holon dimension.
 			if (acrossWidth) {
 				newSize = glm::vec2(oldSize.x*2, oldSize.y);

@@ -5,8 +5,8 @@
 
 class Layer {
 	public:
-		Layer(glm::vec2 gSize) {
-			layer.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+		Layer(glm::vec2 layerResolution, glm::vec2 gSize) {
+			layer.allocate(layerResolution.x, layerResolution.y, GL_RGBA);
 			gridSize = gSize;
 		}
 	
@@ -16,7 +16,7 @@ class Layer {
 					// Draw the holon.
 					for (int row = 0; row < gridSize.y; row++) {
 						for (int col = 0; col < gridSize.x; col++) {
-							Holon h = holons[col][row];
+							Holon h = holons[row][col];
 							h.draw();
 						}
 					}
@@ -29,7 +29,7 @@ class Layer {
 		}
 	
 		void draw() {
-			layer.draw(0, 0); 
+			layer.draw(0, 0, ofGetWidth(), ofGetHeight()); 
 		}
 	
 		void saveToImage(int numIdx) {
@@ -65,6 +65,7 @@ class ofApp : public ofBaseApp{
 		int layerIdx = 0;
 		float mutationProbability;
 		float crossoverProbability;
-		int numGenerations; 
+		int numGenerations;
+		glm::vec2 layerResolution; 
 };
 
