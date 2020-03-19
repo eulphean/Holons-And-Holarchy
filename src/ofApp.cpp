@@ -4,7 +4,7 @@
 void ofApp::setup(){
 	// 2^n, where n = {1 ... n }
 	// Total Layers created will n + 1;
-	numGenerations = 8;
+	numGenerations = 5;
 	gridSize = std::pow(2, numGenerations);
 	// Can change this with a GUI probably.
 	mutationProbability = 0.1;
@@ -23,7 +23,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	//layers[layerIdx].draw();
+	layers[layerIdx].draw();
 }
 
 //--------------------------------------------------------------
@@ -50,10 +50,10 @@ void ofApp::keyPressed(int key){
 }
 
 void ofApp::initSystem() {
-	// Dark matter and only dark matter.
-	Layer darkLayer(gridSize);
-	darkLayer.create(holons);
-	layers.push_back(darkLayer);
+	//	// Dark matter and only dark matter.
+	//	Layer darkLayer(gridSize);
+	//	darkLayer.create(holons);
+	//	layers.push_back(darkLayer);
 	
 	// Size for the first holon layer.
 	glm::vec2 size = glm::vec2(ofGetWidth()/gridSize, ofGetHeight()/gridSize);
@@ -72,7 +72,6 @@ void ofApp::initSystem() {
 	Layer layer(gridSize);
 	layer.create(holons);
 	layers.push_back(layer);
-	layer.saveToImage(layers.size());
 }
 
 void ofApp::createLayers() {

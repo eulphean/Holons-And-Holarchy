@@ -6,7 +6,7 @@
 class Layer {
 	public:
 		Layer(int gSize) {
-			layer.allocate(ofGetWidth()*2, ofGetHeight()*2, GL_RGBA);
+			layer.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 			gridSize = gSize;
 		}
 	
