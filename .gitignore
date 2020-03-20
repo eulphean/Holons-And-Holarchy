@@ -9,7 +9,7 @@
 # but not the data folder
 ###########################
 
-/bin/*
+*/bin/*
 
 #########
 # general
