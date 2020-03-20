@@ -63,7 +63,8 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 		void initHolons();
-		void combineHolons(); 
+		void combineHolons();
+	
 		void createDepths();
 		Holon getRandomHolon();
 		Holon crossover(Holon a, Holon b, glm::vec2 position, glm::vec2 size);
@@ -83,6 +84,6 @@ class ofApp : public ofBaseApp{
 		glm::vec2 layerSize;
 		Pyramid pyramid;
 	
-		ofFbo triangleFbo; 
+		ofFbo triangleFbo;
 };
 

@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	layerSize = glm::vec2(3508, 2480);
+	layerSize = glm::vec2(ofGetWidth(), ofGetHeight());
 	
 	ofEnableAntiAliasing();
 	ofSetCircleResolution(100);
@@ -19,22 +19,29 @@ void ofApp::setup(){
 	initHolons();
 
 	// Recursive function to create several depths.
-	createDepths();
+	// createDepths();
 	
 	// Prepare fbo.
-	createTriangle();
-
+	// createTriangle();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	// Mask the pyramid continuously.
-	pyramid.setMask(triangleFbo.getTexture());
+	// Lowest hierarchy it can serve is 0.
+	if (holarchyDepth >= 1) {
+		holarchyDepth = holarchyDepth - 1;
+		cout << "Creating elements for Depth: " << holarchyDepth << endl;
+		combineHolons();
+		pyramid.update(holons);
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	pyramid.draw();
+	
+	
+	// pyramid.draw();
 	//triangleFbo.draw(0, 0);
 }
 
