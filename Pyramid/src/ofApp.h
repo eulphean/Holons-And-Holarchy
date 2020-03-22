@@ -51,6 +51,10 @@ class Pyramid {
 			fbo.getTexture().setAlphaMask(maskTex);
 		}
 	
+		void clearFbo() {
+			fbo.clear(); 
+		}
+	
 	private:
 		ofFbo fbo;
 		ofFbo saveFbo;

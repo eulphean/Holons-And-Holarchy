@@ -61,6 +61,9 @@ void ofApp::createTriangle() {
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	if (key == 'r') {
+		holarchyDepth = 20;
+		holons.clear();
+		pyramid.clearFbo();
 		initHolons();
 		createDepths();
 	}
