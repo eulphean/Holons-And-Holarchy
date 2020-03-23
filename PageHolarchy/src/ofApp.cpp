@@ -6,7 +6,7 @@ void ofApp::setup(){
 	layerResolution = glm::vec2(3508, 2480);
 	// 2^n, where n = {1 ... n }
 	// Total Layers created will n + 1;
-	numGenerations = 12;
+	numGenerations = 4;
 	// Assign rows and columns.
 	gridSize = glm::vec2(std::pow(2, numGenerations), std::pow(2, numGenerations));
 	
