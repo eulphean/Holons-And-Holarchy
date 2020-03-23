@@ -4,8 +4,8 @@
 
 class Holon {
 	public:
-		Holon(glm::vec2 position, glm::vec2 s);
-		void draw(bool monochrome);
+		Holon(glm::vec2 position, glm::vec2 s, bool monochrome);
+		void draw();
 	
 		glm::vec2 &getSize();
 		glm::vec2 &getPosition();
@@ -16,8 +16,9 @@ class Holon {
 		float mixValue; 
 	private:
 		void assignGenes();
-		ofColor createColorFromGenes(bool monochrome); 
+		ofColor createColorFromGenes(); 
 		glm::vec2 pos;
 		glm::vec2 size;
 		float genes[3]; // Hue, Saturation, Brightness.
+		bool monochrome; 
 };

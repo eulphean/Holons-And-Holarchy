@@ -1,16 +1,17 @@
 #include "Holon.h"
 
-Holon::Holon(glm::vec2 position, glm::vec2 s) {
+Holon::Holon(glm::vec2 position, glm::vec2 s, bool mono) {
 	pos.x = position.x; pos.y = position.y;
 	size.x = s.x; size.y = s.y;
+	monochrome = mono;
 	assignGenes();
 }
 
-void Holon::draw(bool monochrome) {
+void Holon::draw() {
 	ofPushMatrix();
 		ofTranslate(pos);
 		ofPushStyle();
-			ofColor c = createColorFromGenes(monochrome);
+			ofColor c = createColorFromGenes();
 			ofSetColor(c);
 			ofDrawRectangle(0, 0, size.x, size.y);
 		ofPopStyle();
@@ -39,7 +40,7 @@ void Holon::assignGenes() {
 	}
 }
 
-ofColor Holon::createColorFromGenes(bool monochrome) {
+ofColor Holon::createColorFromGenes() {
 	int red = ofMap(genes[0], 0, 1, 0, 255, true);
 	int green = ofMap(genes[1], 0, 1, 0, 255, true);
 	int blue = ofMap(genes[2], 0, 1, 0, 255, true);
