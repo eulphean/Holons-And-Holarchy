@@ -10,6 +10,7 @@ void FrameHolarchy::init() {
 	glm::vec2 initialBufferSize = params->getVec2f("Buffer Size");
 	// This ia Frame by Frame holon representation (it's long)
 	auto numFrames = holarchyDepth*2 + 1;
+	// Can't use this since this is causing a big crash.
 	glm::vec2 totalBufferSize = glm::vec2(initialBufferSize.x, initialBufferSize.y*numFrames);
 	
 	gridSize = glm::vec2(std::pow(2, holarchyDepth), std::pow(2, holarchyDepth));
@@ -36,20 +37,22 @@ void FrameHolarchy::init() {
 		holons.push_back(cols);
 	}
 	
-	Holarchy::initFrame(totalBufferSize, gridSize, holons);
+	// Only send the inital fbo.
+	Holarchy::initFrame(initialBufferSize, gridSize, holons);
 }
 
 void FrameHolarchy::update() {
 	if (gridSize.x == 0 && gridSize.y == 0) {
 		// Nothing to do.
 	} else if (gridSize.x == 1 && gridSize.y == 1) {
-		cout << "Successfully finished creating Holarchy" << endl;
 	} else {
+		cout << "Combining... Grid across Width  " << gridSize.x << endl;
 		// Mate Holons across width.
 		mateHolons(true);
 		gridSize.x = gridSize.x/2;
 		Holarchy::updateFrame(holons, gridSize);
 		
+		cout << "Combining... Grid across Height  " << gridSize.y << endl;
 		// Mate Holons across height.
 		mateHolons(false);
 		gridSize.y = gridSize.y/2;
@@ -58,7 +61,7 @@ void FrameHolarchy::update() {
 }
 
 void FrameHolarchy::draw() {
-	//Holarchy::draw();
+	Holarchy::drawFrame(fboIdx); 
 }
 
 void FrameHolarchy::mateHolons(bool acrossWidth) {
@@ -79,7 +82,7 @@ void FrameHolarchy::mateHolons(bool acrossWidth) {
 			
 			// Which way do we combine the holons?
 			auto newSize = acrossWidth ? glm::vec2(oldSize.x*2, oldSize.y):glm::vec2(oldSize.x, oldSize.y*2);
-			auto newPos = glm::vec2(oldPos.x, oldPos.y + params->getVec2f("Buffer Size")->y); // yPosition of each element + ySize of the buffer.
+			auto newPos = glm::vec2(oldPos.x, oldPos.y); // yPosition of each element + ySize of the buffer.
 
 			auto holonA = holons[row][col];
 			auto holonB = acrossWidth ? holons[row][col+1]:holons[row+1][col];
@@ -131,4 +134,8 @@ Holon FrameHolarchy::crossover(Holon holonA, Holon holonB,
 void FrameHolarchy::clean() {
 	Holarchy::clearFbo();
 	holons.clear();
+}
+
+void FrameHolarchy::setNextIdx() {
+	fboIdx = (fboIdx + 1) % frameFbos.size();
 }

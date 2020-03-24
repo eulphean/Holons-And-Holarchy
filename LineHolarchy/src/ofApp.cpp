@@ -26,6 +26,7 @@ void ofApp::draw(){
 }
 
 void ofApp::exit() {
+	cout << "Exit" << endl;
   gui.saveToFile("Holarchy.xml");
 }
 
@@ -35,9 +36,11 @@ void ofApp::keyPressed(int key){
 		frameHolarchy.clean();
 		stripHolarchy.clean();
 		if (isStripHolarchy) {
+			cout << "New Strip Holarchy" << endl; 
 			stripHolarchy.setParams(&params.generalParams);
 			stripHolarchy.init();
 		} else {
+			cout << "New Frame Holarchy" << endl;
 			frameHolarchy.setParams(&params.generalParams);
 			frameHolarchy.init();
 		}
@@ -45,14 +48,22 @@ void ofApp::keyPressed(int key){
 	
 	if (key == 's') {
 		 if (isStripHolarchy) {
-		 	stripHolarchy.saveToImage();
+		 	stripHolarchy.saveToImage(false);
 		 } else {
-		 	frameHolarchy.saveToImage();
+		 	frameHolarchy.saveToImage(true);
 		 }
 	}
 	
 	if (key == 'h') {
 		hideGui = !hideGui;
+	}
+	
+	if (key == ' ') {
+		if (isStripHolarchy) {
+			// do nothing
+		} else {
+			frameHolarchy.setNextIdx();
+		}
 	}
 }
 

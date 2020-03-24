@@ -11,6 +11,7 @@ class FrameHolarchy : public Holarchy {
 		void update();
 		void draw();
 		void mateHolons(bool acrossWidth);
+		void setNextIdx(); 
 		Holon crossover(Holon holonA, Holon holonB, glm::vec2 newPos, glm::vec2 newSize, int j);
 		void clean(); 
 	

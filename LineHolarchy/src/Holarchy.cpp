@@ -16,6 +16,8 @@ void Holarchy::initFrame(glm::vec2 totalBufferSize, glm::vec2 gridSize, std::vec
 			}
 		}
 	fbo.end();
+	
+	frameFbos.push_back(fbo);
 }
 
 void Holarchy::initStrip(glm::vec2 totalBufferSize, std::vector<Holon> &holons) {
@@ -40,19 +42,30 @@ void Holarchy::draw() {
 	fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
 }
 
+void Holarchy::drawFrame(int fboIdx) {
+	if (frameFbos.size() > 0) {
+		frameFbos[fboIdx].draw(0, 0, ofGetWidth(), ofGetHeight());
+	}
+}
+
 void Holarchy::setParams(ofParameterGroup *generalParams) {
 	params = generalParams;
 }
 
 void Holarchy::updateFrame(std::vector<std::vector<Holon>> &holons, glm::vec2 gridSize) {
-	fbo.begin();
+	// Reset the fbo.
+	glm::vec2 newFboSize = params->getVec2f("Buffer Size");
+	ofFbo f;
+	f.allocate(newFboSize.x, newFboSize.y, GL_RGBA);
+	f.begin();
 		for (int row = 0; row < gridSize.y; row++) {
 			for (int col = 0; col < gridSize.x; col++) {
 				auto curHolon = holons[row][col];
 				drawHolonFbo(curHolon);
 			}
 		}
-	fbo.end();
+	f.end();
+	frameFbos.push_back(f);
 }
 
 void Holarchy::updateStrip(std::vector<Holon> &holons) {
@@ -65,14 +78,24 @@ void Holarchy::updateStrip(std::vector<Holon> &holons) {
 	}
 }
 
-void Holarchy::saveToImage() {
+void Holarchy::saveToImage(bool isFrameHolarchy) {
 	ofPixels pix;
-	fbo.readToPixels(pix);
-	ofSaveImage(pix, "image-" + ofToString(ofGetUnixTime()) + ".jpg", OF_IMAGE_QUALITY_BEST);
+	string txt;
+	if (isFrameHolarchy) {
+		auto f = frameFbos[fboIdx];
+		f.readToPixels(pix);
+		txt = ofToString(fboIdx) + "-" + ofToString(ofGetUnixTime());
+	} else {
+		fbo.readToPixels(pix);
+		txt = ofToString(ofGetUnixTime());
+	}
+	
+	ofSaveImage(pix, "image-" + txt + ".jpg", OF_IMAGE_QUALITY_BEST);
 }
 
 void Holarchy::clearFbo() {
 	fbo.clear();
+	frameFbos.clear();
 }
 
 void Holarchy::drawHolonFbo(Holon curHolon) {

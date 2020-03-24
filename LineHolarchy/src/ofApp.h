@@ -17,11 +17,11 @@ class GuiParams {
 			auto maxBufferSize = glm::vec2(ofGetWidth()*10, ofGetHeight()*10);
 			generalParams.add(bufferSize.set("Buffer Size", currentBufferSize, minBufferSize, maxBufferSize));
 			generalParams.add(depth.set("Holarchy Depth", 4, 1, 25));
-			generalParams.add(monochrome.set("Monochrome", true));
-			generalParams.add(orderedStart.set("Ordered Start", true));
-			generalParams.add(gradient.set("Gradient", true));
+			generalParams.add(monochrome.set("Monochrome", false));
+			generalParams.add(orderedStart.set("Ordered Start", false));
+			generalParams.add(gradient.set("Gradient", false));
 			generalParams.add(mixValue.set("Mix Value", 0.8, 0.0, 1.0));
-			generalParams.add(alternateMixValue.set("Alternate Mix Value", true));
+			generalParams.add(alternateMixValue.set("Alternate Mix Value", false));
 		}
 	
 		// Variables.

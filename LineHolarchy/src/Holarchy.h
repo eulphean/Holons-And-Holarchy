@@ -11,10 +11,11 @@ class Holarchy {
 		virtual void updateStrip(std::vector<Holon> &holons);
 		virtual void updateFrame(std::vector<std::vector<Holon>> & holons, glm::vec2 gridSize);
 		virtual void draw();
+		virtual void drawFrame(int fboIdx);
 		virtual void clearFbo();
 		void setParams(ofParameterGroup *params);
 		void drawHolonFbo(Holon curHolon);
-		void saveToImage();
+		void saveToImage(bool isFrameHolarchy);
 	
 		// Inherited Members should have full access
 		// to these variables.
@@ -22,4 +23,7 @@ class Holarchy {
 		ofFbo fbo;
 		ofShader shader;
 		ofParameterGroup *params;
+	
+		std::vector<ofFbo> frameFbos;
+		int fboIdx = 0; 
 };
