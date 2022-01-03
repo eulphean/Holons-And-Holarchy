@@ -1,2 +1,4 @@
 # Holarchy
-This repository consists of my investigation into working with Holons. 
+During the 2020 New-Media Residency at Mana Contemporary Chicago, Amay Kataria developed a new body of work called [Holons & Holarchy](https://amaykataria.com/#/Holon). Conceptually rooted in Arthur Koestler's book [Ghost in the Machine](https://en.wikipedia.org/wiki/The_Ghost_in_the_Machine), this work present a hierarchy of Holons (Holarchy) that exaggerates the abstract space between finite and infinite. Composed using a precise computer algorithm, these abstract Holarchies repurpose the medium of technology to evoke a philosophical introspection about the interconnectivity, complexity, and stability of organic and inorganic systems that we inhabit in reality. The custom software is capable of generating infinite combinations of these prints. 
+
+![Long shot High Res_Corrected](https://user-images.githubusercontent.com/4178424/147969432-1dd92306-c886-4edc-bcc2-5e4f2af0694d.jpg)
